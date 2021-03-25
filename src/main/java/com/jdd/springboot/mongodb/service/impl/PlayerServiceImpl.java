@@ -3,13 +3,16 @@ package com.jdd.springboot.mongodb.service.impl;
 import com.jdd.springboot.mongodb.model.Player;
 import com.jdd.springboot.mongodb.repository.PlayerRepository;
 import com.jdd.springboot.mongodb.service.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-  @Autowired private PlayerRepository playerRepository;
+  private PlayerRepository playerRepository;
+
+  public PlayerServiceImpl(PlayerRepository playerRepository) {
+    this.playerRepository = playerRepository;
+  }
 
   @Override
   public Iterable<Player> listPlayers() {

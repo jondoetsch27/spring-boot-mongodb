@@ -4,7 +4,6 @@ import com.jdd.springboot.mongodb.model.Player;
 import com.jdd.springboot.mongodb.service.impl.PlayerServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class PlayerController {
 
-  @Autowired private PlayerServiceImpl playerServiceImpl;
+  private PlayerServiceImpl playerServiceImpl;
 
   Logger logger = LoggerFactory.getLogger(PlayerController.class);
+
+  public PlayerController(PlayerServiceImpl playerServiceImpl) {
+    this.playerServiceImpl = playerServiceImpl;
+  }
 
   @GetMapping(path = "/players/read")
   public ResponseEntity<Player> readPlayer(@RequestParam String playerId) {
