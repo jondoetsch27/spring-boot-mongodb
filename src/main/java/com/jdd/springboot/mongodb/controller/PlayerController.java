@@ -54,7 +54,7 @@ public class PlayerController {
   public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
     Player newPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Post at /players/add for Player: " + player);
+    logger.debug("Received Http Post at /players/add for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: insert");
       newPlayer = playerServiceImpl.createPlayer(player);
@@ -71,7 +71,7 @@ public class PlayerController {
   public ResponseEntity<Player> updatePlayer(@RequestBody Player player) {
     Player newPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Put at /players/update for Player: " + player);
+    logger.debug("Received Http Put at /players/update for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: save");
       newPlayer = playerServiceImpl.updatePlayer(player);
@@ -89,7 +89,7 @@ public class PlayerController {
   public ResponseEntity<Player> deletePlayer(@RequestBody Player player) {
     Player oldPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Delete at /players/delete for Player: " + player);
+    logger.debug("Received Http Delete at /players/delete for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: deleteById");
       oldPlayer = playerServiceImpl.deletePlayer(player);
