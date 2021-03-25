@@ -2,6 +2,8 @@ package com.jdd.springboot.mongodb.controller;
 
 import com.jdd.springboot.mongodb.model.Player;
 import com.jdd.springboot.mongodb.service.impl.PlayerServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,48 +14,92 @@ public class PlayerController {
 
   @Autowired private PlayerServiceImpl playerServiceImpl;
 
+  Logger logger = LoggerFactory.getLogger(PlayerController.class);
+
   @RequestMapping(path = "/players/read")
   public ResponseEntity<Player> readPlayer(@RequestParam String playerId) {
+    Player player;
+    ResponseEntity<Player> playerResponseEntity;
+    logger.debug("Received Http Request at /players/read/ for playerId: " + playerId);
     try {
-      return new ResponseEntity<>(playerServiceImpl.readPlayer(playerId), HttpStatus.FOUND);
+      logger.debug("Initating MongoDB process: findById");
+      player = playerServiceImpl.readPlayer(playerId);
+      logger.debug("MongoDB findById process completed successfully");
+      playerResponseEntity = new ResponseEntity<>(player, HttpStatus.FOUND);
     } catch (RuntimeException runtimeException) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      logger.error("MongoDB findById process failed with exception: " + runtimeException);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return playerResponseEntity;
   }
 
   @RequestMapping(path = "/players/read-all")
   public ResponseEntity<Iterable> readPlayers() {
+    Iterable<Player> playerIterable;
+    ResponseEntity<Iterable> iterableResponseEntity;
+    logger.debug("Received Http Request at /players/read-all");
     try {
-      return new ResponseEntity<>(playerServiceImpl.listPlayers(), HttpStatus.OK);
+      logger.debug("Initiating MongoDB process: findAll");
+      playerIterable = playerServiceImpl.listPlayers();
+      logger.debug("MongoDB findAll process completed successfully");
+      iterableResponseEntity = new ResponseEntity<>(playerIterable, HttpStatus.OK);
     } catch (RuntimeException runtimeException) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      logger.error("MongoDB findAll process failed with exception: " + runtimeException);
+      iterableResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return iterableResponseEntity;
   }
 
   @PostMapping(path = "/players/add", consumes = "application/json")
   public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
+    Player newPlayer;
+    ResponseEntity<Player> playerResponseEntity;
+    logger.debug("Received Http Post at /players/add for Player: " + player);
     try {
-      return new ResponseEntity<>(playerServiceImpl.createPlayer(player), HttpStatus.CREATED);
+      logger.debug("Initiating MongoDB process: insert");
+      newPlayer = playerServiceImpl.createPlayer(player);
+      logger.debug("MongoDB insert process completed successfully");
+      playerResponseEntity = new ResponseEntity<>(newPlayer, HttpStatus.CREATED);
     } catch (RuntimeException runtimeException) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      logger.error("MongoDB insert process failed with exception: " + runtimeException);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return playerResponseEntity;
   }
 
   @PutMapping(path = "/players/update", consumes = "application/json")
   public ResponseEntity<Player> updatePlayer(@RequestBody Player player) {
+    Player newPlayer;
+    ResponseEntity<Player> playerResponseEntity;
+    logger.debug("Received Http Put at /players/update for Player: " + player);
     try {
-      return new ResponseEntity<>(playerServiceImpl.updatePlayer(player), HttpStatus.OK);
+      logger.debug("Initiating MongoDB process: save");
+      newPlayer = playerServiceImpl.updatePlayer(player);
+      logger.debug("MongoDB save process completed successfully");
+      playerResponseEntity =
+          new ResponseEntity<>(playerServiceImpl.updatePlayer(player), HttpStatus.ACCEPTED);
     } catch (RuntimeException runtimeException) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      logger.error("MongoDB save process failed with exception: " + runtimeException);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return playerResponseEntity;
   }
 
   @DeleteMapping(path = "/players/delete")
   public ResponseEntity<Player> deletePlayer(@RequestBody Player player) {
+    Player oldPlayer;
+    ResponseEntity<Player> playerResponseEntity;
+    logger.debug("Received Http Delete at /players/delete for Player: " + player);
     try {
-      return (new ResponseEntity<>(playerServiceImpl.deletePlayer(player), HttpStatus.OK));
-    } catch (Exception exception) {
-      return (new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+      logger.debug("Initiating MongoDB process: deleteById");
+      oldPlayer = playerServiceImpl.deletePlayer(player);
+      logger.debug("MongoDB deleteById process completed successfully");
+      playerResponseEntity =
+          new ResponseEntity<>(playerServiceImpl.deletePlayer(player), HttpStatus.ACCEPTED);
+    } catch (RuntimeException runtimeException) {
+      logger.debug("MongoDB deleteById process failed with exception: " + runtimeException);
+      playerResponseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    return playerResponseEntity;
   }
 }
