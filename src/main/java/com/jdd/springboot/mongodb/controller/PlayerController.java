@@ -16,11 +16,11 @@ public class PlayerController {
 
   Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
-  @RequestMapping(path = "/players/read")
+  @GetMapping(path = "/players/read")
   public ResponseEntity<Player> readPlayer(@RequestParam String playerId) {
     Player player;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Request at /players/read/ for playerId: " + playerId);
+    logger.debug("Received GET request at /players/read/ for playerId: " + playerId);
     try {
       logger.debug("Initating MongoDB process: findById");
       player = playerServiceImpl.readPlayer(playerId);
@@ -33,11 +33,11 @@ public class PlayerController {
     return playerResponseEntity;
   }
 
-  @RequestMapping(path = "/players/read-all")
+  @GetMapping(path = "/players/read-all")
   public ResponseEntity<Iterable> readPlayers() {
     Iterable<Player> playerIterable;
     ResponseEntity<Iterable> iterableResponseEntity;
-    logger.debug("Received Http Request at /players/read-all");
+    logger.debug("Received GET request at /players/read-all");
     try {
       logger.debug("Initiating MongoDB process: findAll");
       playerIterable = playerServiceImpl.listPlayers();
@@ -54,7 +54,7 @@ public class PlayerController {
   public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
     Player newPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Post at /players/add for Player: " + player.toString());
+    logger.debug("Received POST request at /players/add for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: insert");
       newPlayer = playerServiceImpl.createPlayer(player);
@@ -71,7 +71,7 @@ public class PlayerController {
   public ResponseEntity<Player> updatePlayer(@RequestBody Player player) {
     Player newPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Put at /players/update for Player: " + player.toString());
+    logger.debug("Received PUT request at /players/update for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: save");
       newPlayer = playerServiceImpl.updatePlayer(player);
@@ -89,7 +89,7 @@ public class PlayerController {
   public ResponseEntity<Player> deletePlayer(@RequestBody Player player) {
     Player oldPlayer;
     ResponseEntity<Player> playerResponseEntity;
-    logger.debug("Received Http Delete at /players/delete for Player: " + player.toString());
+    logger.debug("Received DELETE request at /players/delete for Player: " + player.toString());
     try {
       logger.debug("Initiating MongoDB process: deleteById");
       oldPlayer = playerServiceImpl.deletePlayer(player);
