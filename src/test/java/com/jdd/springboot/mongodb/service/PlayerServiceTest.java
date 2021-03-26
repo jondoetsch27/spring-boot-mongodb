@@ -1,4 +1,4 @@
-package service;
+package com.jdd.springboot.mongodb.service;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

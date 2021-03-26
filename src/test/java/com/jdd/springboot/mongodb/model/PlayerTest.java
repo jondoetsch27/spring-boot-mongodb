@@ -1,4 +1,4 @@
-package model;
+package com.jdd.springboot.mongodb.model;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

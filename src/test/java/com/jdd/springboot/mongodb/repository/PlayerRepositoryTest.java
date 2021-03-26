@@ -1,4 +1,4 @@
-package repository;
+package com.jdd.springboot.mongodb.repository;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
