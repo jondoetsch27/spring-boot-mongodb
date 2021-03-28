@@ -14,6 +14,12 @@ public class Player {
 
   public Player() {}
 
+  public Player(String playerId, String playerName, String playerNumber) {
+    this.playerId = playerId;
+    this.playerName = playerName;
+    this.playerNumber = playerNumber;
+  }
+
   public Player(Builder builder) {
     this.playerId = builder.playerId;
     this.playerName = builder.playerName;
