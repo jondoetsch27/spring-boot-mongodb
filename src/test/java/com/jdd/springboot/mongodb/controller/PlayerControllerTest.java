@@ -22,9 +22,9 @@ public class PlayerControllerTest {
 
   @Autowired private TestRestTemplate restTemplate;
 
+  private static final String DELETE_URL = "/players/delete";
   private static final String GET_URL = "/players/read";
   private static final String GET_ALL_URL = "/players/read-all";
-  private static final String DELETE_URL = "/players/delete";
   private static final String PLAYER_ID_URL = "/?playerId=";
   private static final String POST_URL = "/players/add";
   private static final String PUT_URL = "/players/update";
